@@ -4,47 +4,30 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class UpdateContactScreen extends StatelessWidget {
-  final int index;
+  final Contact contact;
 
-  const UpdateContactScreen({super.key, required this.index});
+  const UpdateContactScreen({super.key, required this.contact});
 
   @override
   Widget build(BuildContext context) {
     final contactProvider = context.read<ContactProvider>();
-    // Get the current contact data to pre-populate fields
-    final initialData = contactProvider.contact[index];
+    final initialData = contact;
 
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+    final TextEditingController nameController = TextEditingController(text: initialData.name);
+    final TextEditingController phoneController = TextEditingController(text: initialData.phone);
 
-    // Initialize controllers with existing contact data
-    final TextEditingController nameController = TextEditingController(
-      text: initialData.name,
-    );
-    final TextEditingController phoneController = TextEditingController(
-      text: initialData.phone,
-    );
-
-    void submit() {
+    void submit() async {
       final isValid = formKey.currentState!.validate();
 
       if (isValid) {
-        // --- Use the new updateContact method ---
-        contactProvider.updateContact(
-          index,
-          Contact(name: nameController.text, phone: phoneController.text),
-        );
-        // ----------------------------------------
-
-        // Pop twice: once for the Update screen, once for the Detailed screen
-        // to show the updated list on the Home screen.
-        // Navigator.popUntil(context, (route) => route.isFirst);
+        final newContact = Contact(id: initialData.id, name: nameController.text, phone: phoneController.text);
+        await contactProvider.updateContact(newContact);
         Navigator.pop(context);
-        // No need to clear controllers if popping the screen
       }
     }
 
     return Scaffold(
-      // Updated title
       appBar: AppBar(title: const Text('Edit Contact')),
       body: SafeArea(
         minimum: const EdgeInsets.all(20),
@@ -59,9 +42,7 @@ class UpdateContactScreen extends StatelessWidget {
               TextFormField(
                 controller: nameController,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12),),
                   hintText: 'Enter name',
                 ),
                 keyboardType: TextInputType.text,
@@ -76,9 +57,7 @@ class UpdateContactScreen extends StatelessWidget {
               TextFormField(
                 controller: phoneController,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12),),
                   hintText: 'Enter phone number',
                 ),
                 keyboardType: TextInputType.phone,

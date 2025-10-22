@@ -18,9 +18,7 @@ class HomeScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 18.0),
             child: IconButton.filledTonal(
-              onPressed: () {
-                Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
-              },
+              onPressed: () => Provider.of<ThemeProvider>(context, listen: false).toggleTheme(),
               icon: Icon(Icons.dark_mode),
             ),
           ),
@@ -30,8 +28,14 @@ class HomeScreen extends StatelessWidget {
         minimum: EdgeInsets.all(20),
         child: Consumer<ContactProvider>(
           builder: (context, contactData, _) {
-            final totalCount = contactData.contact.length;
-            if (contactData.contact.isEmpty) {
+
+            final totalCount = contactData.contacts.length;
+
+            if (contactData.isLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            if (contactData.contacts.isEmpty) {
               return Center(child: Text('No Contacts found!'));
             } else {
               return Column(
@@ -55,15 +59,14 @@ class HomeScreen extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => DetailedScreen(
-                                    index: index,
-                                    contact: contactData.contact[index],
+                                    contact: contactData.contacts[index],
                                   ),
                                 ),
                               );
                             },
-                            title: Text(contactData.contact[index].name),
-                            subtitle: Text(contactData.contact[index].phone),
-                            leading: CircleAvatar(
+                            title: Text(contactData.contacts[index].name),
+                            subtitle: Text(contactData.contacts[index].phone),
+                            leading: const CircleAvatar(
                               child: Icon(Icons.account_circle_outlined),
                             ),
                             trailing: Icon(Icons.chevron_right_rounded),

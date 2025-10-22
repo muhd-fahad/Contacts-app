@@ -5,15 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class DetailedScreen extends StatelessWidget {
-  final int index;
   final Contact contact;
 
-  const DetailedScreen({super.key, required this.contact,required this.index});
+  const DetailedScreen({super.key, required this.contact});
 
   @override
   Widget build(BuildContext context) {
-    // final data = Provider.of<ContactProvider>(context) ;
-    final data = context.watch<ContactProvider>() ;
+
+    final contactProvider = context.watch<ContactProvider>();
+    // fetch the latest version of this contact
+    final updatedContact = contactProvider.contacts.firstWhere((c) => c.id == contact.id,orElse: () => contact,);
     return Scaffold(
       appBar: AppBar(),
       body: Center(
@@ -24,14 +25,14 @@ class DetailedScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CircleAvatar(radius: 40),
-              Text(contact.name, style: TextStyle(fontSize: 28)),
+              Text(updatedContact.name, style: TextStyle(fontSize: 28)),
               Row(
                 spacing: 12,
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Icon(Icons.call),
-                  Text(contact.phone, style: TextStyle(fontSize: 20)),
+                  Text(updatedContact.phone, style: TextStyle(fontSize: 20)),
                 ],
               ),
               // SizedBox(height: 24),
@@ -50,9 +51,10 @@ class DetailedScreen extends StatelessWidget {
                           ),
                         ),
                         icon: Icon(Icons.delete_outline_rounded),
-                        onPressed: () {
+                        onPressed: () async {
+                          await contactProvider.deleteContact(updatedContact.id!);
+                          // await data.deleteContact(contact.id!);
                           Navigator.pop(context);
-                          data.deleteContact(index);
 
                         },
                         label: Text('Delete'),
@@ -68,7 +70,7 @@ class DetailedScreen extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  UpdateContactScreen(index: index),
+                                  UpdateContactScreen(contact: updatedContact,),
                             ),
                           );
                         },

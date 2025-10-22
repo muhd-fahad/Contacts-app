@@ -13,17 +13,15 @@ class AddContactScreen extends StatelessWidget {
     final TextEditingController phoneController = TextEditingController();
     final contact = context.read<ContactProvider>();
 
-    void submit() {
+    void submit() async{
       final isValid = formKey.currentState!.validate();
 
       if (isValid) {
-        contact.addContact(
-          Contact(name: nameController.text, phone: phoneController.text),
-        );
+        await contact.addContact(Contact(name: nameController.text, phone: phoneController.text));
         Navigator.pop(context);
-
-        nameController.clear();
-        phoneController.clear();
+        // Navigator.pop(context);
+        // nameController.clear();
+        // phoneController.clear();
       }
     }
 
@@ -42,9 +40,7 @@ class AddContactScreen extends StatelessWidget {
               TextFormField(
                 controller: nameController,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12),),
                   hintText: 'Enter name',
                 ),
                 keyboardType: TextInputType.text,
@@ -59,9 +55,7 @@ class AddContactScreen extends StatelessWidget {
               TextFormField(
                 controller: phoneController,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12),),
                   hintText: 'Enter phone number',
                 ),
                 keyboardType: TextInputType.phone,
@@ -84,9 +78,7 @@ class AddContactScreen extends StatelessWidget {
                     child: SizedBox(
                       height: 48,
                       child: OutlinedButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
+                        onPressed: () => Navigator.pop(context),
                         child: Text('Cancel'),
                       ),
                     ),
@@ -95,9 +87,7 @@ class AddContactScreen extends StatelessWidget {
                     child: SizedBox(
                       height: 48,
                       child: FilledButton(
-                        onPressed: () {
-                          submit();
-                        },
+                        onPressed: submit,
                         child: Text('Add'),
                       ),
                     ),
