@@ -49,7 +49,7 @@ class DbHelper {
   // list / Get all Contacts
   Future<List<Contact>> getContacts() async {
     final db = await instance.database;
-    final List<Map<String, dynamic>> maps = await db.query(tableName); //  , orderBy: 'name DESC');
+    final List<Map<String, dynamic>> maps = await db.query(tableName  , orderBy: 'name ASC');// 'name DESC');
 
     return List.generate(maps.length, (i) {
       return Contact.fromMap(maps[i]);
