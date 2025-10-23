@@ -18,16 +18,4 @@ class Contact {
       phone: map['phone'],
     );
   }
-  // Helper method for updating contact with new data (used in Provider)
-  Contact copyWith({
-    int? id,
-    String? name,
-    String? phone,
-  }) {
-    return Contact(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      phone: phone ?? this.phone,
-    );
-  }
 }
