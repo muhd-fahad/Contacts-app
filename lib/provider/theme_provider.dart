@@ -13,15 +13,13 @@ class ThemeProvider with ChangeNotifier {
 
   void _loadThemePreference() async {
     final prefs = await SharedPreferences.getInstance();
-    // Default to false (light mode) if no value is found
     _isDarkMode = prefs.getBool(_themeKey) ?? false;
-    notifyListeners(); // Notify listeners once the initial state is loaded
+    notifyListeners();
   }
 
   void toggleTheme() async {
     _isDarkMode = !_isDarkMode;
     final prefs = await SharedPreferences.getInstance();
-    // Save the new state
     await prefs.setBool(_themeKey, _isDarkMode);
     notifyListeners();
   }
