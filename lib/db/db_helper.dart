@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -7,25 +8,21 @@ class DbHelper {
   static Database? _database;
   static const String tableName = 'contacts';
 
-  // Private constructor
   DbHelper._privateConstructor();
 
   static final DbHelper instance = DbHelper._privateConstructor();
 
-  // Getter for the database, initializes if null
   Future<Database> get database async {
     if (_database != null) return _database!;
     _database = await _initDatabase();
     return _database!;
   }
-
-  // Initialize the database
   _initDatabase() async {
     String path = join(await getDatabasesPath(), 'contact_database.db');
     return await openDatabase(path, version: 1, onCreate: _onCreate);
   }
 
-  // Create the contacts table
+
   Future _onCreate(Database db, int version) async {
     await db.execute('''
       CREATE TABLE $tableName(
@@ -34,12 +31,12 @@ class DbHelper {
         phone TEXT
       )
     ''');
-    print('Database table created successfully.');
+    debugPrint('Database table created successfully.');
   }
 
   // CRUD Operations
 
-  // Insert a Contact
+  // Insert
   Future<int> insertContact(Contact contact) async {
     final db = await instance.database;
     return await db.insert(
@@ -49,7 +46,7 @@ class DbHelper {
     );
   }
 
-  // Get all Contacts
+  // list / Get all Contacts
   Future<List<Contact>> getContacts() async {
     final db = await instance.database;
     final List<Map<String, dynamic>> maps = await db.query(tableName); //  , orderBy: 'name DESC');
@@ -59,20 +56,22 @@ class DbHelper {
     });
   }
 
-  // Update a Contact
+  // Update
   Future<int> updateContact(Contact contact) async {
     final db = await instance.database;
     return await db.update(
-      tableName,
-      contact.toMap(),
+      tableName, contact.toMap(),
       where: 'id = ?',
       whereArgs: [contact.id],
     );
   }
 
-  // Delete a Contact
+  // Delete
   Future<int> deleteContact(int id) async {
     final db = await instance.database;
-    return await db.delete(tableName, where: 'id = ?', whereArgs: [id]);
+    return await db.delete(
+        tableName,
+        where: 'id = ?',
+        whereArgs: [id]);
   }
 }
