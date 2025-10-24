@@ -28,7 +28,8 @@ class DbHelper {
       CREATE TABLE $tableName(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT,
-        phone TEXT
+        phone TEXT,
+        email TEXT
       )
     ''');
     debugPrint('Database table created successfully.');

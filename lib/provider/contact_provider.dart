@@ -32,7 +32,7 @@ class ContactProvider extends ChangeNotifier {
 
   Future<void> addContact(Contact contact) async {
     final id = await DbHelper.instance.insertContact(contact);
-    final newContact = Contact(id: id, name: contact.name, phone: contact.phone);
+    final newContact = Contact(id: id, name: contact.name, phone: contact.phone, email: contact.email);
     _contacts.add(newContact);
     notifyListeners();
   }
