@@ -7,6 +7,7 @@ import '../model/contact_model.dart';
 class DbHelper {
   static Database? _database;
   static const String tableName = 'contacts';
+  static const int _databaseVersion = 1;
 
   DbHelper._privateConstructor();
 
@@ -19,7 +20,7 @@ class DbHelper {
   }
   _initDatabase() async {
     String path = join(await getDatabasesPath(), 'contact_database.db');
-    return await openDatabase(path, version: 1, onCreate: _onCreate);
+    return await openDatabase(path, version: _databaseVersion, onCreate: _onCreate, onUpgrade: _onUpgrade);
   }
 
 
@@ -33,6 +34,12 @@ class DbHelper {
       )
     ''');
     debugPrint('Database table created successfully.');
+  }
+
+  Future _onUpgrade(Database db,int oldVersion, int newVersion) async{
+    if(oldVersion<_databaseVersion){
+      await db.execute('ALTER TABLE $tableName ADD COLUMN address TEXT;');
+    }
   }
 
   // CRUD Operations

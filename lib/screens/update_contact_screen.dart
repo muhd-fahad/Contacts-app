@@ -16,8 +16,8 @@ class UpdateContactScreen extends StatelessWidget {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     final TextEditingController nameController = TextEditingController(text: initialData.name);
     final TextEditingController phoneController = TextEditingController(text: initialData.phone);
-    final TextEditingController emailController = TextEditingController(
-        text: initialData.email);
+    final TextEditingController emailController = TextEditingController(text: initialData.email);
+    final TextEditingController addressController = TextEditingController(text: initialData.address);
 
     void submit() async {
       final isValid = formKey.currentState!.validate();
@@ -25,7 +25,7 @@ class UpdateContactScreen extends StatelessWidget {
         final newContact = Contact(id: initialData.id,
             name: nameController.text,
             phone: phoneController.text,
-            email: emailController.text);
+            email: emailController.text, address: '');
         await contactProvider.updateContact(newContact);
         Navigator.pop(context);
       }

@@ -3,8 +3,9 @@ class Contact {
   final String name;
   final String phone;
   final String email;
+  final String address;
 
-  Contact({this.id, required this.name, required this.phone, required this.email,});
+  Contact( {this.id, required this.name, required this.phone, required this.email,required this.address,});
   Map<String, dynamic> toMap(){
     return {
       'id': id,
@@ -18,7 +19,8 @@ class Contact {
       id: map['id'],
       name: map['name'],
       phone: map['phone'],
-      email: map['email']
+      email: map['email'],
+      address :map['address']
     );
   }
 }

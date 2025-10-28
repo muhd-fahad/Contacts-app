@@ -12,16 +12,22 @@ class AddContactScreen extends StatelessWidget {
     final TextEditingController nameController = TextEditingController();
     final TextEditingController phoneController = TextEditingController();
     final TextEditingController emailController = TextEditingController();
+    final TextEditingController addressController = TextEditingController();
 
     final contact = context.read<ContactProvider>();
 
-    void submit() async{
+    void submit() async {
       final isValid = formKey.currentState!.validate();
 
       if (isValid) {
-        await contact.addContact(Contact(name: nameController.text,
+        await contact.addContact(
+          Contact(
+            name: nameController.text,
             phone: phoneController.text,
-            email: emailController.text));
+            email: emailController.text,
+            address: addressController.text,
+          ),
+        );
         Navigator.pop(context);
         // Navigator.pop(context);
         // nameController.clear();
@@ -44,12 +50,19 @@ class AddContactScreen extends StatelessWidget {
                   spacing: 12,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Center(child: CircleAvatar(radius: 40,child: Icon(Icons.account_circle_outlined, size: 48),)),
+                    const Center(
+                      child: CircleAvatar(
+                        radius: 40,
+                        child: Icon(Icons.account_circle_outlined, size: 48),
+                      ),
+                    ),
                     const Text('Name'),
                     TextFormField(
                       controller: nameController,
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12),),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                         hintText: 'Enter name',
                       ),
                       textInputAction: TextInputAction.next,
@@ -65,7 +78,9 @@ class AddContactScreen extends StatelessWidget {
                     TextFormField(
                       controller: phoneController,
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12),),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                         hintText: 'Enter phone number',
                       ),
                       textInputAction: TextInputAction.next,
@@ -84,7 +99,8 @@ class AddContactScreen extends StatelessWidget {
                       controller: emailController,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                         hintText: 'Enter Email',
                       ),
                       textInputAction: TextInputAction.done,
