@@ -17,6 +17,8 @@ class DetailedScreen extends StatelessWidget {
       (c) => c.id == contact.id,
       orElse: () => contact,
     );
+
+
     return Scaffold(
       appBar: AppBar(),
       body: Center(
@@ -52,12 +54,35 @@ class DetailedScreen extends StatelessWidget {
                           ),
                         ),
                         icon: Icon(Icons.delete_outline_rounded),
-                        onPressed: () async {
-                          await contactProvider.deleteContact(
-                            updatedContact.id!,
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Confirm Deletion',style: TextStyle(color: Theme.of(context).colorScheme.error),),
+                                content: const Text(
+                                    'Are you sure you want to delete this contact? This action cannot be undone.'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('Cancel'),
+                                  ),
+                                  FilledButton(
+                                    style:ButtonStyle(backgroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.error)),
+                                    onPressed: () async {
+                                      Navigator.popUntil(context, (route) => route.isFirst,);
+
+                                      // to delete the item from contact
+                                      await contactProvider.deleteContact(updatedContact.id!,);
+                                    },
+                                    child: Text('Delete',style: TextStyle(color: Theme.of(context).colorScheme.onError),),
+                                  ),
+                                ],
+                              );
+                            },
                           );
-                          // await data.deleteContact(contact.id!);
-                          Navigator.pop(context);
                         },
                         label: Text('Delete'),
                       ),
