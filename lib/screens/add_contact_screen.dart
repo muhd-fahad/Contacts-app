@@ -103,16 +103,35 @@ class AddContactScreen extends StatelessWidget {
                         ),
                         hintText: 'Enter Email',
                       ),
-                      textInputAction: TextInputAction.done,
+                      textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.emailAddress,
                       onFieldSubmitted: (_) => submit(),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Phone email is required';
+                          return 'Email is required';
                         }
                         // else if (value.length != 10) {
                         //   return 'Enter valid phone number ';
                         // }
+                        return null;
+                      },
+                    ),
+                    const Text('Place'),
+                    TextFormField(
+                      controller: addressController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        hintText: 'Enter Place',
+                      ),
+                      textInputAction: TextInputAction.done,
+                      keyboardType: TextInputType.streetAddress,
+                      onFieldSubmitted: (_) => submit(),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Can not be empty';
+                        }
                         return null;
                       },
                     ),

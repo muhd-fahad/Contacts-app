@@ -34,6 +34,7 @@ class DetailedScreen extends StatelessWidget {
               SizedBox(),
               ContactItem(text: updatedContact.phone, icon: Icons.call_outlined),
               ContactItem(text: updatedContact.email, icon: Icons.mail_outline_rounded),
+              ContactItem(text: updatedContact.address, icon: Icons.place_outlined),
               // SizedBox(height: 24),
               Spacer(),
               Row(

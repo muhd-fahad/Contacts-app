@@ -25,7 +25,8 @@ class UpdateContactScreen extends StatelessWidget {
         final newContact = Contact(id: initialData.id,
             name: nameController.text,
             phone: phoneController.text,
-            email: emailController.text, address: '');
+            email: emailController.text,
+            address: addressController.text);
         await contactProvider.updateContact(newContact);
         Navigator.pop(context);
       }
@@ -92,7 +93,7 @@ class UpdateContactScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12),),
                         hintText: 'Enter Email',
                       ),
-                      textInputAction: TextInputAction.done,
+                      textInputAction: TextInputAction.next,
                       onFieldSubmitted: (_) => submit(),
                       keyboardType: TextInputType.phone,
                       validator: (value) {
@@ -102,6 +103,25 @@ class UpdateContactScreen extends StatelessWidget {
                         // else if (value.length != 10) {
                         //   return 'Enter valid phone number ';
                         // }
+                        return null;
+                      },
+                    ),
+                    const Text('Place'),
+                    TextFormField(
+                      controller: addressController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        hintText: 'Enter Place',
+                      ),
+                      textInputAction: TextInputAction.done,
+                      keyboardType: TextInputType.streetAddress,
+                      onFieldSubmitted: (_) => submit(),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Can not be empty';
+                        }
                         return null;
                       },
                     ),
