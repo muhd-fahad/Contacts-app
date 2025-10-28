@@ -28,7 +28,8 @@ class DetailedScreen extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 40,
-                child: Icon(Icons.account_circle_outlined, size: 48,),
+                // child: Icon(Icons.account_circle_outlined, size: 48,),
+                child: Text(updatedContact.name[0].toUpperCase(), style: TextStyle(fontSize: 40),),
               ),
               Text(updatedContact.name, style: TextStyle(fontSize: 28)),
               SizedBox(),

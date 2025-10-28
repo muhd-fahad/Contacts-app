@@ -66,8 +66,9 @@ class HomeScreen extends StatelessWidget {
                             },
                             title: Text(contactData.contacts[index].name),
                             subtitle: Text(contactData.contacts[index].phone),
-                            leading: const CircleAvatar(
-                              child: Icon(Icons.account_circle_outlined),
+                            leading: CircleAvatar(
+                              // child: Icon(Icons.account_circle_outlined),
+                              child: Text(contactData.contacts[index].name[0].toUpperCase()),
                             ),
                             trailing: Icon(Icons.chevron_right_rounded),
                           ),
