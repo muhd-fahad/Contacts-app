@@ -19,7 +19,7 @@ class HomeScreen extends StatelessWidget {
             padding: const EdgeInsets.only(right: 18.0),
             child: IconButton.filledTonal(
               onPressed: () => Provider.of<ThemeProvider>(context, listen: false).toggleTheme(),
-              icon: Icon(Icons.dark_mode_outlined),
+              icon: Icon(Icons.brightness_4_outlined),
             ),
           ),
         ],
