@@ -35,6 +35,8 @@ class ContactProvider extends ChangeNotifier {
     final newContact = Contact(id: id, name: contact.name, phone: contact.phone, email: contact.email, address: contact.address);
     _contacts.add(newContact);
     notifyListeners();
+
+    debugPrint('\n${'+ '*10} new contact added ${' +'*10}\n');
   }
 
   Future<void> updateContact(Contact updatedContact) async {
@@ -43,6 +45,8 @@ class ContactProvider extends ChangeNotifier {
     if (index != -1) {
       _contacts[index] = updatedContact;
       notifyListeners();
+
+      debugPrint('\n${'* '*10} contact updated ${' *'*10}\n');
     }
   }
 
@@ -50,5 +54,7 @@ class ContactProvider extends ChangeNotifier {
     await DbHelper.instance.deleteContact(id);
     _contacts.removeWhere((c) => c.id == id);
     notifyListeners();
+
+    debugPrint('\n${'- '*10} contact deleted ${' -'*10}\n');
   }
 }
